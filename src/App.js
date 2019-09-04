@@ -1,54 +1,31 @@
-import React from 'react';
-import styles from './App.module.css';
+import React, {useState, useEffect} from 'react';
+import axios from 'axios';
 import './App.css';
 
-function App() {
-  return (
-    <div className={styles.app}>
-        
-    <table className={styles.table}>
-      <thead>
-        <tr>
-          <th>S/N</th>
-          <th>First Name</th>
-          <th>Last Name</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr>
-            <td>1</td>
-            <td>Abel</td>
-            <td>Agoi</td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>Muyiwa</td>
-            <td>Aregbesola</td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td>Opeyemi</td>
-            <td>Agoi</td>
-          </tr>
-          <tr>
-            <td>4</td>
-            <td>Ope</td>
-            <td>Aina</td>
-          </tr>
-      </tbody>
-    </table>
+const App = () => {
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postPerPage, setPostsPerPage] = useState(10);
 
+  useEffect(() => {
+    const fetchPosts = async () => {
+      setLoading(true);
+      const res = await axios.get('https://jsonplaceholder.typicode.com/posts');
+      setPosts(res.data);
+      setLoading(false);
+    }
 
-    <div className={styles.pagination}>
-      <span>&laquo;</span>
-      <span className={styles.active}>1</span>
-      <span>2</span>
-      <span>3</span>
-      <span>4</span>
+    fetchPosts();
+  }, []);
+
+  console.log(posts);
+
+  return(
+    <div className="container">
+      <h1>My App</h1>
     </div>
-
-  </div>
   );
-}
+};
 
 export default App;
